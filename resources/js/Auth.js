@@ -50,20 +50,17 @@ class Auth {
             });
         });
       }
-   async hasAccess($permissionName) {
-
-        return await  axios.get(`/api/v1/has/${$permissionName}/access`)
-                .then(response => {
-                    return response.data.is_allowed;
-                })
-                .catch(error => {
-                if (error.response && error.response.status === 401) {
-                    return false;
-                } else {
-                    return false;
-                }
-                });
-
+      async hasAccess(permissionName) {
+        try {
+          const response = await axios.get(`/api/v1/has/${permissionName}/access`);
+          return response.data.is_allowed;
+        } catch (error) {
+          if (error.response && error.response.status === 401) {
+            return false;
+          } else {
+            return false;
+          }
+        }
       }
 }
 export default new Auth();

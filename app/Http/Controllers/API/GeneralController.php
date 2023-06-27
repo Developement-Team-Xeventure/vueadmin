@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CountryResource;
+use App\Http\Resources\RoleResource;
 use App\Http\Resources\StateResource;
 use App\Models\BusinessCategory;
 use App\Models\BusinessType;
@@ -90,11 +91,11 @@ class GeneralController extends Controller
         ],200);
     }
     public function companyRoles(Request $request){
-        $data = Role::all();
+        $data = Role::get();
         return response()->json([
             'status' => true,
             'msg' => 'Success',
-            'roles' => $data,
+            'roles' => RoleResource::collection($data),
         ],200);
     }
 }

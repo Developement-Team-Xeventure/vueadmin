@@ -34,22 +34,19 @@ const routes = [
         name: 'company-register',
         meta: { requiresAuth: false },
     },
-
     {
         path: '/login',
         component: CompanyLogin,
         name: 'login',
         meta: { requiresAuth: false },
-        props: (route) => ({ q: route.query.q })
+        props: (route) => ({ q: route.query.q }),
     },
-
     {
         path: '/register',
         component: Register,
         name: 'register',
         meta: { requiresAuth: false },
     },
-
     {
         path: '/home',
         component: DefaultLayout,
@@ -64,44 +61,41 @@ const routes = [
             },
             {
                 path: 'settings',
-                name: 'Setting',
                 component: settings,
-                meta: {
-                    requiresAuth: true
-                },
+                name: 'Setting',
+                meta: { requiresAuth: true },
                 children: [
                     {
-                        path: 'user-management',
-                        name: 'UserManagement',
+                        path: '/user-management',
                         component: UserManager,
-                        meta: {
-                            requiresAuth: true
-                        },
+                        name: 'user-management',
+                        meta: { requiresAuth: true },
                         children: [
                             {
-                                path: 'users',
-                                name: 'user',
+                                path: '/users',
                                 component: Users,
-                                meta: {
-                                    requiresAuth: true
-                                },
+                                name: 'user',
+                                meta: { requiresAuth: true },
                             },
                             {
-                                path: 'permission',
-                                name: 'permission',
+                                path: '/permission',
                                 component: Permission,
-                                meta: {
-                                    requiresAuth: true
-                                },
+                                name: 'permission',
+                                meta: { requiresAuth: true },
                             },
-                        ]
+                        ],
                     },
-                ]
+
+                    {
+                        path: '/general-setting',
+                        component: UserManager,
+                        name: 'general',
+                        meta: { requiresAuth: true },
+                    },
+                ],
             },
-
-        ]
-    }
-
+        ],
+    },
 ];
 
 

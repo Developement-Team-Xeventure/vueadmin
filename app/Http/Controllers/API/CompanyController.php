@@ -18,17 +18,20 @@ use Laravel\Passport\Token;
 
 class CompanyController extends Controller
 {
-    private $user;
-    private $companyId;
+    public $user;
+    public $companyId;
 
-    public function __construct(Request $request)
+    public function __construct(){}
+
+    public function initialize(Request $request)
     {
-        $this->user = $request->input('bearerTokenUser');
         $this->companyId = $request->input('openCompany');
+        $this->user = $request->input('bearerTokenUser');
     }
 
     public function companies(Request $request): JsonResponse
     {
+        $this->initialize($request);
         $company = Company::all();
         return response()->json([
             'status' => true,
@@ -39,6 +42,7 @@ class CompanyController extends Controller
 
     public function userCompanies(Request $request, $id): JsonResponse
     {
+        $this->initialize($request);
         $company = Company::where('user_id', $id)->get();
         return response()->json([
             'status' => true,
@@ -49,6 +53,7 @@ class CompanyController extends Controller
 
     public function createCompany(Request $request): JsonResponse
     {
+        $this->initialize($request);
 
         try {
 
@@ -131,6 +136,7 @@ class CompanyController extends Controller
 
     public function updateCompany(Request $request): JsonResponse
     {
+        $this->initialize($request);
 
         return response()->json([
             'status' => true,
@@ -142,8 +148,9 @@ class CompanyController extends Controller
 
     public function testPermission(Request $request) {
 
+        $this->initialize($request);
 
-        $user = $request->input('bearerTokenUser');
+        $user = $this->user;
         if($user){
             return response()->json([
                 'status' => true,
@@ -155,37 +162,14 @@ class CompanyController extends Controller
 
 
     public function hasAccess(Request $request,$permissionName){
-        $user = $request->input('bearerTokenUser');
+        $this->initialize($request);
+        $user = $this->user;
         if($user){
             return response()->json([
-                'status' => true,
                 'is_allowed' => $user->hasPermissionTo($permissionName),
-            ], 200);
+            ],200);
         }
 
-    }
-
-
-
-    public function companyUsers(Request $request)
-    {
-        $companyId = $this->companyId;
-
-        $users = User::with('roles')->whereHas('company', function ($query) use ($companyId) {
-            $query->where('id', $companyId);
-        })->get();
-
-        if ($users->isNotEmpty()) {
-            return response()->json([
-                'status' => true,
-                'users' => $users,
-            ], 200);
-        }
-
-        return response()->json([
-            'status' => false,
-            'message' => 'No users found for the given company ID.',
-        ], 404);
     }
 }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CompanyAuthController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\GeneralController;
 use App\Http\Controllers\API\MenuController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +48,8 @@ Route::group(['middleware' => 'cors','prefix'=>'v1/'], function () {
 
             Route::get('menus', [MenuController::class, 'menus']);
 
-            Route::get('users', [CompanyController::class, 'companyUsers']);
+            Route::get('users', [UserController::class, 'companyUsers']);
+            Route::post('user', [UserController::class, 'addUser']);
             Route::get('roles', [GeneralController::class, 'companyRoles']);
             Route::get('has/{name}/access', [CompanyController::class, 'hasAccess']);
 

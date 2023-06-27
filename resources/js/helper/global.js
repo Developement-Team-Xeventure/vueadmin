@@ -32,6 +32,14 @@ export default {
         }
       };
 
+      app.config.globalProperties.apiv1 = async (method, apiUrl, dataObject) => {
+        return await axios({
+            method: method,
+            url: "/api/v1/" + apiUrl,
+            data: dataObject,
+          });
+      };
+
       app.config.globalProperties.toast = toastr;
 
       app.config.globalProperties.token = window.localStorage.getItem('token');

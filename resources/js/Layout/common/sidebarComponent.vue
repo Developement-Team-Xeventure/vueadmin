@@ -13,24 +13,26 @@
 
                     <li v-for="menu in menusItems" :key="menu.id" class="sidebar-item" :class="{ 'has-submenu': menu.is_parent }">
 
-                        <a v-if="menu.is_parent==0&&menu.is_child==0" class="sidebar-link" :href="menu.route">
-                            <!-- <i class="align-middle" data-feather="check-circle"></i> -->
+                        <router-link v-if="menu.is_parent==0&&menu.is_child==0" class="sidebar-link" :to="{ name: menu.route }">
                             <i  :class="`bx bx-${menu.icon}`"></i>
                             <span class="">{{ menu.title }}</span>
-                        </a>
+                        </router-link>
 
                         <a v-else-if="menu.is_parent==1&&menu.is_child==0" :data-bs-target="`#menu-${menu.id}`" data-bs-toggle="collapse" class="sidebar-link collapsed">
                             <i :class="`bx bx-${menu.icon}`"></i>
                              <span class="mb-2">{{ menu.title }}</span>
 						</a>
 
-						<ul :id="`menu-${menu.id}`" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <ul :id="`menu-${menu.id}`" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item" v-for="subMenu in menusItems" :key="subMenu.id">
 
-							<li class="sidebar-item" v-for="subMenu in menusItems">
-                                <a class="sidebar-link" href="#" v-if="subMenu.parent_id==menu.id&&subMenu.is_child==1">{{ subMenu.title }}</a>
+                                <router-link class="sidebar-link" :to="{ name: subMenu.route }"
+                                    v-if="subMenu.parent_id === menu.id && subMenu.is_child === 1">
+                                    {{ subMenu.title }}
+                                </router-link>
+
                             </li>
-
-						</ul>
+                        </ul>
 
                     </li>
 
