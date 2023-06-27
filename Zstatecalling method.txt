@@ -1,0 +1,57 @@
+<template>
+    <div class="col-lg-12 mb-3">
+           <div class="card border-radius-xl">
+               <div class="card-header">
+                  <div class="row">
+                    <nav class="nav nav-pills flex-column flex-sm-row">
+                       {{ menus }}
+                    </nav>
+                  </div>
+               </div>
+           </div>
+    </div>
+</template>
+
+<script>
+import { mapActions, mapGetters, mapState } from 'vuex';
+
+export default {
+  data() {
+    return {
+      menus: [],
+    };
+  },
+
+  computed: {
+    ...mapGetters(['allStates']),
+  },
+
+  methods: {
+    ...mapActions(['fetchStates']),
+    sidebarMenus() {
+      return this.allStates;
+    },
+  },
+
+  created() {
+    this.fetchStates()
+      .then(() => {
+        this.menus = this.sidebarMenus();
+      })
+      .catch(error => {
+        console.error('Error occurred while fetching states:', error);
+      });
+  },
+};
+</script>
+
+
+<style lang="scss" scoped>
+
+</style>
+
+
+
+
+https://www.youtube.com/watch?v=JatpAUl6_5E
+https://www.youtube.com/watch?v=JatpAUl6_5E&list=RDCMUCTuplgOBi6tJIlesIboymGA&start_radio=1
